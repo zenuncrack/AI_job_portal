@@ -87,7 +87,7 @@ uvicorn app:app --reload --port 8000
 <p>API available at:</p>
 
 <ul>
-  <li>Core: <code>http://127.0.0.1:8080/swagger-ui.html</code></li>
+  <li>Core: <code>http://127.0.0.1:8080/</code></li>
   <li>AI: <code>http://127.0.0.1:8000/docs</code></li>
 </ul>
 
