@@ -6,14 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-public interface ServiceInterface {
+public interface UserServiceInterface {
 
 
     List<UserDto> getAllUsers();
 
     void addNewUser(String first, String last, String email, String pass, String addr, MultipartFile file) throws IOException;
 
-    UserDto updateUser(Long id, UserDto userDto);
+    UserDto updateUser(Long id, UserDto userDto, MultipartFile cvFile) throws IOException;
 
     void deleteUser(Long id);
 }

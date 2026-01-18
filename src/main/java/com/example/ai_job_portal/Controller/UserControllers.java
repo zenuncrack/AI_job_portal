@@ -2,7 +2,7 @@ package com.example.ai_job_portal.Controller;
 
 
 import com.example.ai_job_portal.Dto.UserDto;
-import com.example.ai_job_portal.Service.ServiceInterface;
+import com.example.ai_job_portal.Service.UserServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +13,16 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-public class AllControllers {
+@RequestMapping("/user")
+public class UserControllers {
 
 
-    private final ServiceInterface serviceInterface;
+    private final UserServiceInterface userServiceInterface;
 
 
     @GetMapping("/all_users")
     public List<UserDto> getAllUsers(){
-        return serviceInterface.getAllUsers();
+        return userServiceInterface.getAllUsers();
     }
 
     @PostMapping(value = "/insert_user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -33,19 +34,25 @@ public class AllControllers {
             @RequestParam("address") String address,
             @RequestParam("cvFile") MultipartFile cvFile
     ) throws IOException {
-        serviceInterface.addNewUser(firstname, lastname, email, password, address, cvFile);
+        userServiceInterface.addNewUser(firstname, lastname, email, password, address, cvFile);
 
-        return serviceInterface.getAllUsers();
+        return userServiceInterface.getAllUsers();
     }
 
-    @PutMapping("/update_user/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        return serviceInterface.updateUser(id, userDto);
+    @PutMapping(value = "/update_user/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public UserDto updateUser(
+            @PathVariable Long id,
+            @ModelAttribute UserDto userDto,
+            @RequestParam(value = "cvFile", required = false) MultipartFile cvFile
+    ) throws IOException {
+
+
+        return userServiceInterface.updateUser(id, userDto, cvFile);
     }
 
     @DeleteMapping("/delete_user/{id}")
     public String deleteUser(@PathVariable Long id) {
-        serviceInterface.deleteUser(id);
+        userServiceInterface.deleteUser(id);
         return "User deleted successfully";
     }
 
